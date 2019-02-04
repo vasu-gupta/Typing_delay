@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<title>Typing delay simulator</title>
+<meta charset='utf-8'>
+
+<style>
+  body {
+    padding: 30px;
+    text-align: center;
+  }
+  body,
+  input {
+    font-size: 24px;
+  }
+  input {
+    width: 100%;
+    max-width: 1000px;
+  }
+</style>
+
+<div>
+  Delay: <span class='delay-value'></span>ms
+</div>
+<div>
+  <input class='delay' type='range' value='400' min='0' max='1000'>
+</div>
+<div>
+  <input class='text' value='' autofocus>
+</div>
+
+
+<script>
+  let delayValue
+
+  function updateValue() {
+    delayValue = parseInt(document.querySelector('.delay').value)
+    document.querySelector('.delay-value').innerHTML = delayValue
+  }
+
+  function onKeyPress(event) {
+    //console.warn(event.key)
+
+    if (!event.metaKey) {
+      event.preventDefault()
+    }
+
+    window.setTimeout(function() {
+      if (event.key == 'Backspace') {
+        document.querySelector('.text').value = document.querySelector('.text').value.substr(0, document.querySelector('.text').value.length - 1)
+      } else {
+        document.querySelector('.text').value += event.key
+      }
+    }, delayValue)
+  }
+
+  document.querySelector('.text').addEventListener('keypress', onKeyPress)
+  document.querySelector('.delay').addEventListener('input', updateValue)
+  document.querySelector('.text').value = ''
+  updateValue()
+</script>
